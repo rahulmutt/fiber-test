@@ -2,14 +2,15 @@
 
 set -e
 
-projDir=$(dirname $(readlink -f "$0"))
+projDir=.
 
 findCpuList() {
-    local cpuCount=$( \
-        cat "/proc/cpuinfo" | \
-        grep "cpu cores" | \
-        head -n 1 | \
-        sed -r 's/.*([0-9]+)$/\1/g')
+    local cpuCount=$(sysctl -n hw.logicalcpu)
+    # local cpuCount=$( \
+    #     cat "/proc/cpuinfo" | \
+    #     grep "cpu cores" | \
+    #     head -n 1 | \
+    #     sed -r 's/.*([0-9]+)$/\1/g')
     echo "0-$[$cpuCount-1]"
 }
 
@@ -46,14 +47,13 @@ pomFile=$(requireFile "POM file" "$projDir/pom.xml")
 artifactId=$( \
     grep "artifactId" "$pomFile" | \
     head -n 1 | \
-    sed -r 's/.*<artifactId>(.*)<\/artifactId>/\1/g')
+    sed -E 's/.*<artifactId>(.*)<\/artifactId>/\1/g')
 uberJar=$(requireFile \
     "Uber JAR, run \"mvn install\" first" \
     "$projDir/target/$artifactId.jar")
 quasarJar="$projDir/target/agents/quasar-core.jar"
 
-cmd="taskset -c $cpuList \
-$JAVA_HOME/bin/java \
+cmd="java \
 -server -XX:+TieredCompilation -XX:+AggressiveOpts \
 -jar \"$uberJar\" \
 -jvmArgsAppend \"-DworkerCount=$workerCount -DringSize=$ringSize -javaagent:$quasarJar\" \
