@@ -11,6 +11,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <quasar.version>0.7.3</quasar.version>
+        <vertx.version>3.0.0</vertx.version>
     </properties>
 
     <dependencies>
@@ -27,12 +28,12 @@
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
             <artifactId>jmh-core</artifactId>
-            <version>1.11</version>
+            <version>1.19</version>
         </dependency>
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
             <artifactId>jmh-generator-annprocess</artifactId>
-            <version>1.11</version>
+            <version>1.19</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -57,6 +58,11 @@
             <version>${quasar.version}</version>
         </dependency>
         <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-core</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>19.0-rc1</version>
@@ -72,6 +78,11 @@
             <artifactId>surefire-junit4</artifactId>
             <version>2.18.1</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>1.6.1</version>
         </dependency>
     </dependencies>
 
