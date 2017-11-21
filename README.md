@@ -13,18 +13,29 @@ welcome.
 Implementations
 ---------------
 
-Project employs 3 threading libraries to implement fibers in the benchmarks.
+Project employs 4 threading libraries to implement fibers in the benchmarks.
 
 1. [Standard Java Threads](http://docs.oracle.com/javase/7/docs/api/java/lang/Thread.html)
 2. [Akka Actors](http://akka.io/)
 3. [Quasar Fibers and Actors](http://docs.paralleluniverse.co/quasar/)
+4. [Eta Fibers](https://github.com/rahulmutt/eta-fibers-dev)
 
 Usage
 -----
 
-You first need to build the JMH Uber JAR using Maven.
+1. Install [Eta](http://eta-lang.org/docs/html/getting-started.html#method-1-binary-installation).
 
-    $ mvn clean install
+2. Install `eta-fibers-dev`.
+
+```
+git clone https://github.com/rahulmutt/eta-fibers-dev
+cd eta-fibers-dev
+etlas install
+```
+
+3. Run `./install.sh`
+
+4. Run `mvn clean install`
 
 Next, you can either use the provided `benchmark.sh` script
 
@@ -62,15 +73,16 @@ create an all-in-one JAR and run benchmarks individually.
 Results
 -------
 
-For `Oracle Java 1.8.0_60-b27` running on `Intel(R) Core(TM) i7-4702MQ CPU @ 2.20GHz` on `Linux 3.13.0-63-generic x86_64` kernel:
+For `Oracle Java 1.8.0_102-b14` running on `Intel(R) Core(TM) i5-5250U CPU @ 1.60GHz` on `OS X El Capitan Version 10.11.5`:
 
 ```
-JavaThreadRingBenchmark.ringBenchmark      avgt   50  7741,274 ± 476,113  ms/op
-QuasarActorRingBenchmark.ringBenchmark     avgt   50  1702,764 ±  65,940  ms/op
-QuasarDataflowRingBenchmark.ringBenchmark  avgt   50  1512,901 ±  55,922  ms/op
-QuasarChannelRingBenchmark.ringBenchmark   avgt   50  1417,803 ±  49,837  ms/op
-AkkaActorRingBenchmark.ringBenchmark       avgt   50   892,533 ±  50,865  ms/op
-QuasarFiberRingBenchmark.ringBenchmark     avgt   50   832,529 ±  47,586  ms/op
+AkkaActorRingBenchmark.ringBenchmark       avgt   50   657.889 ±  23.338  ms/op
+EtaFiberRingBenchmark.ringBenchmark        avgt   50   949.181 ±  51.674  ms/op
+JavaThreadRingBenchmark.ringBenchmark      avgt   50  9803.600 ± 177.944  ms/op
+QuasarActorRingBenchmark.ringBenchmark     avgt   50  2678.167 ± 122.796  ms/op
+QuasarChannelRingBenchmark.ringBenchmark   avgt   50  2099.612 ± 123.330  ms/op
+QuasarDataflowRingBenchmark.ringBenchmark  avgt   50  2296.656 ± 139.150  ms/op
+QuasarFiberRingBenchmark.ringBenchmark     avgt   50   950.884 ±  98.654  ms/op
 ```
 
 License
